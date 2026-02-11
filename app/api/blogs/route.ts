@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
-import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
 export const revalidate = 30;
@@ -43,6 +42,17 @@ async function ensureTagIds(tagNames: string[]) {
     ids.push(tag.id);
   }
   return ids;
+}
+
+function isPrismaKnownRequestError(
+  error: unknown,
+): error is { code: string } {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    typeof (error as { code?: unknown }).code === "string"
+  );
 }
 
 export async function GET(request: NextRequest, _context: unknown) {
@@ -137,10 +147,7 @@ export async function POST(request: NextRequest, _context: unknown) {
 
     return NextResponse.json({ data: blog }, { status: 201 });
   } catch (error: unknown) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2003"
-    ) {
+    if (isPrismaKnownRequestError(error) && error.code === "P2003") {
       return NextResponse.json(
         { error: "Invalid relation ID (categoryId/tag/authorId)." },
         { status: 400 },
