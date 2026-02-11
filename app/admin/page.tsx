@@ -249,7 +249,7 @@ async function PressSection() {
       </CardHeader>
       <CardContent className="space-y-2">
         {items.length ? (
-          items.map((item) => (
+          items.map((item: (typeof items)[number]) => (
             <div key={item.id} className="rounded-md border p-3">
               <p className="text-sm font-medium">{item.title}</p>
               <p className="text-xs text-muted-foreground">
