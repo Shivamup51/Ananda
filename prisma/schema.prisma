@@ -1,0 +1,241 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+//////////////////////////////////////////////////////
+// AUTH (CORE)
+//////////////////////////////////////////////////////
+
+model User {
+  id            String    @id
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions Session[]
+  accounts Account[]
+
+  articles Article[]
+  blogs    Blog[]
+
+  @@map("user")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+//////////////////////////////////////////////////////
+// EDITORIAL CORE
+//////////////////////////////////////////////////////
+
+enum PublishStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+model Category {
+  id   String @id @default(cuid())
+  name String
+  slug String @unique
+
+  blogs    Blog[]
+  articles Article[]
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique
+  slug String @unique
+
+  blogs    Blog[]    @relation("BlogTags")
+  articles Article[] @relation("ArticleTags")
+}
+
+//////////////////////////////////////////////////////
+// BLOGS
+//////////////////////////////////////////////////////
+
+model Blog {
+  id            String        @id @default(cuid())
+  title         String
+  slug          String        @unique
+  excerpt       String?
+  content       String        @db.Text
+  featuredImage String?
+  status        PublishStatus @default(DRAFT)
+  isEnabled     Boolean       @default(true)
+
+  authorId String
+  author   User @relation(fields: [authorId], references: [id])
+
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  tags Tag[] @relation("BlogTags")
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+}
+
+//////////////////////////////////////////////////////
+// ARTICLES (Premium Editorial)
+//////////////////////////////////////////////////////
+
+model Article {
+  id            String        @id @default(cuid())
+  title         String
+  slug          String        @unique
+  standfirst    String?
+  content       String        @db.Text
+  featuredImage String?
+  readTime      Int?
+  isFeatured    Boolean       @default(false)
+  status        PublishStatus @default(DRAFT)
+  isEnabled     Boolean       @default(true)
+
+  authorId String
+  author   User @relation(fields: [authorId], references: [id])
+
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  tags Tag[] @relation("ArticleTags")
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+}
+
+//////////////////////////////////////////////////////
+// MAGAZINE / FLIPBOOK
+//////////////////////////////////////////////////////
+
+model MagazineIssue {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  theme       String?
+  month       Int
+  year        Int
+  coverImage  String
+  description String?
+  flipbookUrl String
+  pdfUrl      String?
+  status      PublishStatus @default(DRAFT)
+  isEnabled   Boolean       @default(true)
+
+  highlights IssueHighlight[]
+
+  createdAt   DateTime  @default(now())
+  publishedAt DateTime?
+}
+
+model IssueHighlight {
+  id      String @id @default(cuid())
+  title   String
+  summary String
+  issueId String
+  issue   MagazineIssue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+}
+
+//////////////////////////////////////////////////////
+// EVENTS
+//////////////////////////////////////////////////////
+
+model Event {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  description String        @db.Text
+  bannerImage String?
+  location    String?
+  isOnline    Boolean       @default(false)
+  eventUrl    String?
+  startDate   DateTime
+  endDate     DateTime?
+  status      PublishStatus @default(DRAFT)
+  isEnabled   Boolean       @default(true)
+
+  createdAt DateTime @default(now())
+}
+
+//////////////////////////////////////////////////////
+// PRESS / MEDIA
+//////////////////////////////////////////////////////
+
+model PressItem {
+  id          String   @id @default(cuid())
+  title       String
+  source      String?
+  link        String?
+  logo        String?
+  publishedAt DateTime?
+  isEnabled   Boolean  @default(true)
+}
