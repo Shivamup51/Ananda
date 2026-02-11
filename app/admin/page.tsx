@@ -118,7 +118,7 @@ async function OverviewCards() {
 
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-      {items.map((item) => (
+      {items.map((item: (typeof items)[number]) => (
         <Card key={item.label}>
           <CardHeader className="space-y-1 pb-2">
             <CardDescription>{item.label}</CardDescription>
@@ -145,7 +145,7 @@ async function MagazineSection() {
       </CardHeader>
       <CardContent className="space-y-2">
         {items.length ? (
-          items.map((item) => (
+          items.map((item: (typeof items)[number]) => (
             <div key={item.id} className="rounded-md border p-3">
               <p className="text-sm font-medium">{item.title}</p>
               <p className="text-xs text-muted-foreground">
@@ -171,7 +171,7 @@ async function BlogsSection() {
       </CardHeader>
       <CardContent className="space-y-2">
         {items.length ? (
-          items.map((item) => (
+          items.map((item: (typeof items)[number]) => (
             <div key={item.id} className="rounded-md border p-3">
               <p className="text-sm font-medium">{item.title}</p>
               <p className="text-xs text-muted-foreground">
@@ -197,7 +197,7 @@ async function ArticlesSection() {
       </CardHeader>
       <CardContent className="space-y-2">
         {items.length ? (
-          items.map((item) => (
+          items.map((item: (typeof items)[number]) => (
             <div key={item.id} className="rounded-md border p-3">
               <p className="text-sm font-medium">{item.title}</p>
               <p className="text-xs text-muted-foreground">
@@ -223,7 +223,7 @@ async function EventsSection() {
       </CardHeader>
       <CardContent className="space-y-2">
         {items.length ? (
-          items.map((item) => (
+          items.map((item: (typeof items)[number]) => (
             <div key={item.id} className="rounded-md border p-3">
               <p className="text-sm font-medium">{item.title}</p>
               <p className="text-xs text-muted-foreground">

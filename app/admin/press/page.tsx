@@ -1,11 +1,15 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import PressTabs from "./_components/press-tabs";
 
 export default function PressPage() {
-  const searchParams = useSearchParams();
-  const editId = searchParams.get("edit") ?? undefined;
+  const [editId, setEditId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setEditId(params.get("edit") ?? undefined);
+  }, []);
 
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full bg-background px-6 py-8">

@@ -172,7 +172,7 @@ export default async function HomePage() {
             </Button>
           </div>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {blogs.map((blog) => (
+            {blogs.map((blog: (typeof blogs)[number]) => (
               <ContentCard
                 key={blog.id}
                 href={`/blogs/${blog.id}`}
@@ -194,7 +194,7 @@ export default async function HomePage() {
             </Button>
           </div>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {articles.map((article) => (
+            {articles.map((article: (typeof articles)[number]) => (
               <ContentCard
                 key={article.id}
                 href={`/articles/${article.id}`}
@@ -216,7 +216,7 @@ export default async function HomePage() {
             </Button>
           </div>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
+            {posts.map((post: (typeof posts)[number]) => (
               <ContentCard
                 key={post.id}
                 href={`/posts/${post.id}`}
@@ -238,7 +238,7 @@ export default async function HomePage() {
             </Button>
           </div>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {magazines.map((issue) => (
+            {magazines.map((issue: (typeof magazines)[number]) => (
               <ContentCard
                 key={issue.id}
                 href={`/magazines/${issue.id}`}

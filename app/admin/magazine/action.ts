@@ -2,7 +2,6 @@
 
 import { updateTag } from "next/cache";
 import prisma from "@/lib/prisma";
-import { Prisma } from "@/app/generated/prisma";
 
 export type MagazineIssueInput = {
   title: string;
@@ -73,4 +72,3 @@ export async function deleteMagazineIssue(id: string) {
   updateTag(`magazine-issue:${id}`);
   return issue;
 }
-

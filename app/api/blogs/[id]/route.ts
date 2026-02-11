@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
+import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
 type RouteContext = {
@@ -85,7 +86,7 @@ export async function GET(request: NextRequest, { params }: RouteContext) {
         content: normalizeRichText(blog.content),
       },
     });
-  } catch (error) {
+  } catch (error: unknown) {
     return NextResponse.json(
       {
         error: error instanceof Error ? error.message : "Failed to fetch blog.",

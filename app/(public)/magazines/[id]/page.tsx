@@ -29,7 +29,7 @@ export default async function MagazineIssuePage({ params }: PageProps) {
         <div className="space-y-4 rounded-2xl border bg-card p-6">
           <SectionHeader title="Issue Highlights" />
           <div className="grid gap-4 md:grid-cols-2">
-            {issue.highlights.map((highlight) => (
+            {issue.highlights.map((highlight: (typeof issue.highlights)[number]) => (
               <div key={highlight.id} className="rounded-xl border bg-background p-4">
                 <p className="font-semibold">{highlight.title}</p>
                 <p className="mt-2 text-sm leading-7 text-muted-foreground">{highlight.summary}</p>
@@ -42,7 +42,7 @@ export default async function MagazineIssuePage({ params }: PageProps) {
       <div className="space-y-5">
         <SectionHeader title="Related Content" />
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {related.map((item) => (
+          {related.map((item: (typeof related)[number]) => (
             <ContentCard
               key={item.id}
               href={`/magazines/${item.id}`}

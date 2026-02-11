@@ -87,7 +87,7 @@ export default async function PostDetailPage({ params }: PageProps) {
       <div className="mt-12 space-y-5">
         <SectionHeader title="Related Posts" />
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {related.map((item) => (
+          {related.map((item: (typeof related)[number]) => (
             <ContentCard
               key={item.id}
               href={`/posts/${item.id}`}

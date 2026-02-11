@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
+import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
 export const revalidate = 30;
@@ -67,7 +68,7 @@ export async function GET(request: NextRequest, _context: unknown) {
     });
 
     return NextResponse.json({ data: blogs });
-  } catch (error) {
+  } catch (error: unknown) {
     return NextResponse.json(
       {
         error:
@@ -135,7 +136,7 @@ export async function POST(request: NextRequest, _context: unknown) {
     }
 
     return NextResponse.json({ data: blog }, { status: 201 });
-  } catch (error) {
+  } catch (error: unknown) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2003"

@@ -40,7 +40,7 @@ export default async function EventsPage({ searchParams }: PageProps) {
         />
       </div>
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-        {pagedEvents.map((event) => (
+        {pagedEvents.map((event: (typeof pagedEvents)[number]) => (
           <ContentCard
             key={event.id}
             href={`/events/${event.id}`}

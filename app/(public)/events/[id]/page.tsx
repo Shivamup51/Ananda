@@ -64,7 +64,7 @@ export default async function EventDetailPage({ params }: PageProps) {
       <div className="mt-12 space-y-5">
         <SectionHeader title="Related Content" />
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {related.map((item) => (
+          {related.map((item: (typeof related)[number]) => (
             <ContentCard
               key={item.id}
               href={`/events/${item.id}`}
@@ -79,4 +79,3 @@ export default async function EventDetailPage({ params }: PageProps) {
     </ContentDetailLayout>
   );
 }
-

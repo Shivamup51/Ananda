@@ -60,7 +60,7 @@ export default async function PostsPage({ searchParams }: PageProps) {
 
       {pagedPosts.length ? (
         <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-          {pagedPosts.map((post) => (
+          {pagedPosts.map((post: (typeof pagedPosts)[number]) => (
             <ContentCard
               key={post.id}
               href={`/posts/${post.id}`}

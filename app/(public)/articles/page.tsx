@@ -32,7 +32,7 @@ export default async function ArticlesPage({ searchParams }: PageProps) {
         <SearchFilterBar searchPlaceholder="Search articles..." />
       </div>
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-        {pagedArticles.map((article) => (
+        {pagedArticles.map((article: (typeof pagedArticles)[number]) => (
           <ContentCard
             key={article.id}
             href={`/articles/${article.id}`}

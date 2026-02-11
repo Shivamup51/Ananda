@@ -41,7 +41,7 @@ export default async function MagazinesPage({ searchParams }: PageProps) {
         />
       </div>
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-        {pagedMagazines.map((issue) => (
+        {pagedMagazines.map((issue: (typeof pagedMagazines)[number]) => (
           <ContentCard
             key={issue.id}
             href={`/magazines/${issue.id}`}

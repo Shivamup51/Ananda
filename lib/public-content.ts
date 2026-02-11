@@ -164,7 +164,7 @@ export async function getHomeData() {
   ]);
 
   return {
-    blogs: blogs.map((blog) => {
+    blogs: blogs.map((blog: (typeof blogs)[number]) => {
       const normalized = normalizeRichContent(blog.content);
       return {
         ...blog,
@@ -172,7 +172,7 @@ export async function getHomeData() {
         excerpt: blog.excerpt || extractSnippet(normalized),
       };
     }),
-    articles: articles.map((article) => {
+    articles: articles.map((article: (typeof articles)[number]) => {
       const normalized = normalizeRichContent(article.content);
       return {
         ...article,
@@ -181,7 +181,7 @@ export async function getHomeData() {
       };
     }),
     posts,
-    events: events.map((event) => ({
+    events: events.map((event: (typeof events)[number]) => ({
       ...event,
       description: normalizeRichContent(event.description),
     })),
@@ -203,7 +203,7 @@ export async function getBlogs(options: QueryOptions) {
     take: 60,
   });
 
-  return blogs.map((blog) => {
+  return blogs.map((blog: (typeof blogs)[number]) => {
     const normalized = normalizeRichContent(blog.content);
     return {
       ...blog,
@@ -227,7 +227,7 @@ export async function getArticles(options: QueryOptions) {
     take: 60,
   });
 
-  return articles.map((article) => {
+  return articles.map((article: (typeof articles)[number]) => {
     const normalized = normalizeRichContent(article.content);
     return {
       ...article,
@@ -269,7 +269,7 @@ export async function getEvents(options: QueryOptions & { mode?: string }) {
     take: 60,
   });
 
-  return events.map((event) => ({
+  return events.map((event: (typeof events)[number]) => ({
     ...event,
     description: normalizeRichContent(event.description),
   }));
@@ -379,7 +379,7 @@ export async function getRelatedBlogs(exceptId: string) {
     take: 3,
   });
 
-  return blogs.map((blog) => {
+  return blogs.map((blog: (typeof blogs)[number]) => {
     const normalized = normalizeRichContent(blog.content);
     return {
       ...blog,
@@ -399,7 +399,7 @@ export async function getRelatedArticles(exceptId: string) {
     take: 3,
   });
 
-  return articles.map((article) => {
+  return articles.map((article: (typeof articles)[number]) => {
     const normalized = normalizeRichContent(article.content);
     return {
       ...article,
@@ -430,7 +430,7 @@ export async function getRelatedEvents(exceptId: string) {
     take: 3,
   });
 
-  return events.map((event) => ({
+  return events.map((event: (typeof events)[number]) => ({
     ...event,
     description: normalizeRichContent(event.description),
   }));
